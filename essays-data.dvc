@@ -1,0 +1,6 @@
+outs:
+- md5: 2db4e403a72219c11048d061a9aa661e.dir
+  size: 194721193
+  nfiles: 2
+  hash: md5
+  path: essays-data

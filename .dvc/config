@@ -1,0 +1,7 @@
+[core]
+    no_scm = True
+    remote = gdrive_remote
+['remote "gdrive_remote"']
+    url = gdrive://1ohGow0UaBfkz7TO-e1LQR7VsW42Yz9Nj
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = ./llm-classifier-461818-befa9bfb6d92.json

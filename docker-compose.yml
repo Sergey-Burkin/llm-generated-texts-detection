@@ -1,0 +1,31 @@
+services:
+  mlflow-server:
+    build:
+      context: .
+      dockerfile: mlflow.dockerfile
+    container_name: mlflow_server
+    network_mode: host
+    volumes:
+      - $PWD/mlflow:/app
+
+  tsd-model:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tsd_model
+    network_mode: host
+    # runtime: nvidia
+    # devices:
+    #   - /dev/nvidia0
+    #   - /dev/nvidiactl
+    #   - /dev/nvidia-uvm
+    #   - /dev/nvidia-uvm-tools
+    #   - /dev/nvidia-modeset
+    volumes:
+      - $PWD/model-dir:/app/model-dir
+    depends_on:
+      - mlflow-server
+    environment:
+      - MLFLOW_TRACKING_URI=mlflow-server
+    stdin_open: true
+    tty: true
