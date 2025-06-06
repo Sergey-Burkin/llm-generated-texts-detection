@@ -1,0 +1,39 @@
+model:
+  name: "bert-base-uncased"
+
+data:
+  train_file: "essays-data/train.parquet"
+  val_file: "essays-data/valid.parquet"
+  batch_size: 32
+  max_length: 128
+
+training:
+  epochs: 5
+  learning_rate: 2e-5
+  weight_decay: 0.01
+  warmup_steps: 500
+  log_every_n_steps: 10
+  disable_progress_bar: false
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+
+callbacks:
+  checkpoint:
+    monitor: "val_f1"
+    mode: "max"
+    dirpath: "checkpoints/"
+    filename: "best-checkpoint"
+  early_stopping:
+    monitor: "val_f1"
+    patience: 2
+    mode: "max"
+
+mlflow:
+  tracking_uri: "http://127.0.0.1:8080"
+  registered_model_name: "text_generation_classifier"
+
+experiment:
+  name: "text_generation_classification"
+
+inference:
+  checkpoint_path: "checkpoints/best-checkpoint.ckpt"

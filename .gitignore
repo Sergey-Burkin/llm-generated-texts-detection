@@ -192,3 +192,7 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+mlflow/
+model-dir/
+.dvc/llm-classifier-461818-befa9bfb6d92.json

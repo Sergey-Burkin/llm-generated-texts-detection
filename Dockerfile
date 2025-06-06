@@ -80,6 +80,10 @@ COPY essays-data.dvc .dvcignore .
 
 COPY .dvc/ ./.dvc/
 
-COPY src/ .
+COPY classifier/ ./classifier
+
+COPY commands.py .
+
+COPY configs ./configs
 
 CMD conda run -n base jupyter notebook --ip 0.0.0.0 --allow-root --no-browser
