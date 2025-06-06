@@ -14,13 +14,13 @@ services:
       dockerfile: Dockerfile
     container_name: tsd_model
     network_mode: host
-    # runtime: nvidia
-    # devices:
-    #   - /dev/nvidia0
-    #   - /dev/nvidiactl
-    #   - /dev/nvidia-uvm
-    #   - /dev/nvidia-uvm-tools
-    #   - /dev/nvidia-modeset
+    runtime: nvidia
+    devices:
+      - /dev/nvidia0
+      - /dev/nvidiactl
+      - /dev/nvidia-uvm
+      - /dev/nvidia-uvm-tools
+      - /dev/nvidia-modeset
     volumes:
       - $PWD/model-dir:/app/model-dir
     depends_on:

@@ -11,7 +11,7 @@ keywords = ["reproducibility", "data science", "machine learning", "template"]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
-python = "~3.11"
+python = "^3.11"
 mlflow = "^2.12.1"
 dvc-gdrive = "^3.0.1"
 torch = "^2.0"
