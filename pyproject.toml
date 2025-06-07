@@ -1,14 +1,10 @@
 [tool.poetry]
-name = "ds-project"
+name = "llm-generated-texts-classification"
 version = "0.1.0"
-description = "Template repository to start your Data Science or Machine Learning project from"
-authors = ["Vladilav Goncharenko <vladislav.goncharenko@phystech.edu>"]
-maintainers = ["Vladislav Goncharenko <vladislav.goncharenko@phystech.edu>"]
+description = "LLM generated vs human written text classification model"
+authors = ["Sergei Burkin <burkin.sv@phystech.edu>"]
 readme = "README.md"
-repository = "https://github.com/v-goncharenko/data-science-template"
-documentation = "https://girafe.ai/"
-keywords = ["reproducibility", "data science", "machine learning", "template"]
-license = "Apache-2.0"
+repository = "github.com/Sergey-Burkin/llm-generated-texts-detection"
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -29,6 +25,7 @@ omegaconf = "^2.3.0"
 fire = "^0.6.0"
 hydra-core = "^1.3.2"
 #pycuda = "^2024.1.2"
+onnx = "^1.18.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
