@@ -37,3 +37,12 @@ experiment:
 
 inference:
   checkpoint_path: "checkpoints/best-checkpoint.ckpt"
+
+onnx_export:
+  model_path: "model.onnx" # Путь для сохранения ONNX модели
+  input_names: ["input_ids", "attention_mask"]
+  output_names: ["logits"]
+  dynamic_axes: # Динамические размерности
+    input_ids: [0, 1]
+    attention_mask: [0, 1]
+    logits: [0, 1]

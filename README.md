@@ -46,3 +46,7 @@ mlflow
 ### Запуск модели
 
 `python3 commands.py infer --text="Sample text."`
+
+### Перевод модели в onnx
+
+`python3 commands.py export_onnx`

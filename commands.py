@@ -1,6 +1,7 @@
 import fire
 import torch
 from classifier.model import TextGenerationClassifier
+from classifier.packaging import export_to_onnx
 from classifier.train import train
 from classifier.utils import prepare_text_for_inference
 from hydra import compose, initialize
@@ -48,5 +49,22 @@ def infer(text: str, config_name: str = "config", config_path: str = "./configs"
         print(f"Prediction: {label} (confidence: {prob:.2f})")
 
 
+def export_onnx(config_name: str = "config", config_path: str = "./configs"):
+    """Экспортирует модель в формат ONNX"""
+    with initialize(version_base=None, config_path=config_path):
+        cfg = compose(config_name=config_name)
+        export_to_onnx(
+            cfg=cfg,
+            checkpoint_path=cfg.inference.checkpoint_path,
+            onnx_path=cfg.onnx_export.model_path,
+        )
+
+
 if __name__ == "__main__":
-    fire.Fire({"train": train_model, "infer": infer})
+    fire.Fire(
+        {
+            "train": train_model,
+            "infer": infer,
+            "export_onnx": export_onnx,
+        }
+    )
