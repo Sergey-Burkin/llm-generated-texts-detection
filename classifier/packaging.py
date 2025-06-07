@@ -7,6 +7,8 @@ from transformers import AutoTokenizer
 
 
 def export_to_onnx(cfg: DictConfig, checkpoint_path: str, onnx_path: str):
+    onnx_cfg = cfg.onnx_export
+
     model = TextGenerationClassifier.load_from_checkpoint(
         checkpoint_path, cfg=cfg, num_training_steps=0
     )
@@ -19,10 +21,11 @@ def export_to_onnx(cfg: DictConfig, checkpoint_path: str, onnx_path: str):
         text=sample_text, tokenizer=tokenizer, max_length=cfg.data.max_length
     )
 
+    # Обертка модели для возврата только логитов
     class ModelWrapper(torch.nn.Module):
         def __init__(self, model):
             super().__init__()
-            self.model = model.model  # Доступ к внутренней модели transformers
+            self.model = model.model
 
         def forward(self, input_ids, attention_mask):
             outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
@@ -33,21 +36,20 @@ def export_to_onnx(cfg: DictConfig, checkpoint_path: str, onnx_path: str):
     input_ids = inputs["input_ids"].unsqueeze(0)
     attention_mask = inputs["attention_mask"].unsqueeze(0)
 
-    dynamic_axes = {
-        "input_ids": {0: "batch_size"},
-        "attention_mask": {0: "batch_size"},
-        "logits": {0: "batch_size"},
-    }
+    dynamic_axes = {}
+    for tensor_name, axes in onnx_cfg.dynamic_axes.items():
+        dynamic_axes[tensor_name] = {axis_idx: f"dim_{axis_idx}" for axis_idx in axes}
 
     export(
         model=wrapped_model,
         args=(input_ids, attention_mask),
-        f=onnx_path,
-        input_names=["input_ids", "attention_mask"],
-        output_names=["logits"],
+        f=onnx_cfg.model_path,
+        input_names=onnx_cfg.input_names,
+        output_names=onnx_cfg.output_names,
         dynamic_axes=dynamic_axes,
-        opset_version=14,
-        do_constant_folding=True,
+        opset_version=onnx_cfg.opset_version,
+        do_constant_folding=onnx_cfg.do_constant_folding,
+        verbose=onnx_cfg.verbose,
     )
 
-    print(f"Модель успешно экспортирована в {onnx_path}")
+    print(f"ONNX модель успешно экспортирована в: {onnx_cfg.model_path}")

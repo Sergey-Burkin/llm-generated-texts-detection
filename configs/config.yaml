@@ -47,3 +47,5 @@ onnx_export:
     attention_mask: [0, 1]
     logits: [0, 1]
   opset_version: 14
+  do_constant_folding: true
+  verbose: true
