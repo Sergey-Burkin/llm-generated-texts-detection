@@ -8,11 +8,11 @@ services:
     volumes:
       - $PWD/mlflow:/app
 
-  tsd-model:
+  classifier-model:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tsd_model
+    container_name: classifier_model
     network_mode: host
     runtime: nvidia
     devices:
@@ -23,8 +23,6 @@ services:
       - /dev/nvidia-modeset
     volumes:
       - $PWD/model-dir:/app/model-dir
-    depends_on:
-      - mlflow-server
     environment:
       - MLFLOW_TRACKING_URI=mlflow-server
     stdin_open: true

@@ -74,8 +74,6 @@ RUN if [ -f poetry.lock ]; then echo "poetry.lock exists"; else echo "poetry.loc
 
 RUN conda run -n $CONDA_ENV poetry install
 
-COPY jupyter_docker.sh .
-
 COPY essays-data.dvc .dvcignore .
 
 COPY .dvc/ ./.dvc/
